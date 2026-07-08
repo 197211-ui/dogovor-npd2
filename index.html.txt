@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Договор · безопасные формулировки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: #eef2f7;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .card {
+            max-width: 960px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 16px 32px -10px rgba(0, 20, 40, 0.18);
+            padding: 18px 22px 22px;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5ecf5;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .card-header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0b1a2b;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-header h1 span {
+            background: #eef4ff;
+            color: #1a5cff;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 2px 12px;
+            border-radius: 30px;
+        }
+        .badge {
+            font-size: 12px;
+            color: #2f5a8a;
+            background: #ecf3fc;
+            padding: 3px 14px;
+            border-radius: 30px;
+            font-weight: 500;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1.7fr;
+            gap: 4px 18px;
+        }
+        .clause-label {
+            font-weight: 600;
+            font-size: 15px;
+            color: #162a41;
+            align-self: center;
+            padding: 3px 0;
+            border-right: 2px dashed #d7e1ed;
+            padding-right: 10px;
+            text-align: right;
+            line-height: 1.3;
+        }
+        .clause-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+        .option-select {
+            width: 100%;
+            padding: 4px 8px;
+            border-radius: 8px;
+            border: 1.5px solid #d7e2ef;
+            background: #fafcff;
+            font-size: 12.5px;
+            color: #142b44;
+            transition: 0.15s;
+            cursor: pointer;
+            outline: none;
+            font-weight: 450;
+            appearance: auto;
+            height: 30px;
+        }
+        .option-select:focus {
+            border-color: #3f7bcb;
+            box-shadow: 0 0 0 3px rgba(46, 106, 219, 0.10);
+        }
+        .option-select.correct {
+            border-color: #1b8c5a;
+            background: #e7f5ee;
+        }
+        .option-select.incorrect {
+            border-color: #c73b3b;
+            background: #fceeec;
+        }
+        .option-select:disabled {
+            opacity: 0.9;
+            cursor: default;
+        }
+        .actions {
+            margin-top: 16px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            align-items: center;
+            border-top: 1px solid #e5ecf5;
+            padding-top: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-check {
+            background: #0b2647;
+            color: white;
+            border: none;
+            padding: 6px 26px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+            letter-spacing: 0.2px;
+        }
+        .btn-check:hover {
+            background: #12355f;
+            transform: scale(1.01);
+        }
+        .btn-check:active {
+            transform: scale(0.97);
+        }
+        .btn-reset {
+            background: transparent;
+            border: 1.5px solid #c2d3e8;
+            padding: 5px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1d3f66;
+            cursor: pointer;
+            transition: 0.12s;
+        }
+        .btn-reset:hover {
+            background: #e2ebf8;
+            border-color: #8badda;
+        }
+        .result-message {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #1c4f78;
+            background: #e7f0fa;
+            padding: 4px 16px;
+            border-radius: 30px;
+        }
+        .result-message.error {
+            background: #fde9e7;
+            color: #a3362e;
+        }
+        .result-message.success {
+            background: #e1f3e9;
+            color: #0d6e47;
+        }
+        @media (max-width: 700px) {
+            .card { padding: 14px 16px; }
+            .grid { grid-template-columns: 1fr; gap: 2px; }
+            .clause-label {
+                border-right: none;
+                border-bottom: 1px dashed #d7e1ed;
+                padding-right: 0;
+                padding-bottom: 3px;
+                text-align: left;
+                margin-top: 6px;
+            }
+            .clause-label:first-of-type { margin-top: 0; }
+            .actions { flex-direction: column; align-items: stretch; }
+            .btn-check { width: 100%; }
+            .result-message { text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .card-header h1 { font-size: 17px; }
+            .option-select { font-size: 12px; padding: 3px 6px; height: 28px; }
+            .clause-label { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+<div class="card" id="app">
+    <div class="card-header">
+        <h1>📄 Договор подряда <span>самозанятый</span></h1>
+        <div class="badge">выберите формулировку</div>
+    </div>
+
+    <div class="grid" id="contractGrid">
+        <!-- 1. Предмет договора -->
+        <div class="clause-label">Предмет договора</div>
+        <div class="clause-content">
+            <select class="option-select" data-question="0" id="q0">
+                <option value="">—</option>
+                <option value="0">Подрядчик обязуется выполнять работы по ремонту и обслуживанию компьютеров, принтеров и другой офисной техники Заказчика.</option>
+                <option value="1">Подрядчик обязуется выполнить работы по ремонту 5 принтеров, характеристики которых указаны в Приложении № 1 к настоящему Договору.</option>
+            </select>
+        </div>
+
+        <!-- 2. Вознаграждение -->
+        <div class="clause-label">Вознаграждение</div>
+        <div class="clause-content">
+            <select class="option-select" data-question="1" id="q1">
+                <option value="">—</option>
+                <option value="0">Цена работ составляет 15 тыс. руб.</option>
+                <option value="1">Цена работ — 50 тыс. руб. в месяц.</option>
+            </select>
+        </div>
+
+        <!-- 3. Оплата -->
+        <div class="clause-label">Оплата</div>
+        <div class="clause-content">
+            <select class="option-select" data-question="2" id="q2">
+                <option value="">—</option>
+                <option value="0">Заказчик перечисляет Подрядчику оплату по договору ежемесячно не позднее 5-го и 25-го числа месяца.</option>
+                <option value="1">Заказчик перечисляет Подрядчику оплату за выполненные работы в течение пяти календарных дней с момента подписания акта приемки-сдачи работ.</option>
+            </select>
+        </div>
+
+        <!-- 4. Чек -->
+        <div class="clause-label">Чек</div>
+        <div class="clause-content">
+            <select class="option-select" data-question="3" id="q3">
+                <option value="">—</option>
+                <option value="0">При получении безналичной оплаты Подрядчик обязан выдать Заказчику чек не позднее дня, следующего за днем получения вознаграждения.</option>
+                <option value="1">Подрядчик обязан выдавать Заказчику чек в сроки, установленные законодательством.</option>
+            </select>
+        </div>
+
+        <!-- 5. Условия работы -->
+        <div class="clause-label">Условия работы</div>
+        <div class="clause-content">
+            <select class="option-select" data-question="4" id="q4">
+                <option value="">—</option>
+                <option value="0">Подрядчик выполняет работы в период с 9-00 до 18-00. Заказчик обеспечивает Подрядчика запчастями, необходимыми для ремонта.</option>
+                <option value="1">Материалы, необходимые для выполнения работ, предоставляет Подрядчик. Подрядчик самостоятельно определяет способы выполнения работ.</option>
+            </select>
+        </div>
+
+        <!-- 6. Акт и НПД (объединено) -->
+        <div class="clause-label">Акт и НПД</div>
+        <div class="clause-content">
+            <select class="option-select" data-question="5" id="q5">
+                <option value="">—</option>
+                <option value="0">Включить в договор обязанность самозанятого подписать акт. В актах перечислить конкретные выполненные услуги и работы. Указать, что исполнитель платит НПД по доходам, которые получает в рамках договора. Включить обязанность сообщить компании, если утратит право на НПД.</option>
+                <option value="1">Только акт приёмки-сдачи выполненных работ.</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="actions">
+        <div id="resultMessage" class="result-message">выберите все варианты</div>
+        <div>
+            <button class="btn-reset" id="resetBtn">сбросить</button>
+            <button class="btn-check" id="checkBtn">Проверить</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Правильные ответы: для каждого вопроса индекс правильного варианта (0 или 1)
+        const correctAnswers = [1, 0, 1, 0, 1, 0];
+        const selects = document.querySelectorAll('.option-select');
+        const checkBtn = document.getElementById('checkBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultMsg = document.getElementById('resultMessage');
+
+        function resetAll() {
+            selects.forEach(sel => {
+                sel.value = '';
+                sel.classList.remove('correct', 'incorrect');
+                sel.disabled = false;
+            });
+            resultMsg.textContent = 'выберите все варианты';
+            resultMsg.className = 'result-message';
+        }
+
+        function checkAll() {
+            selects.forEach(sel => {
+                sel.classList.remove('correct', 'incorrect');
+            });
+
+            let allSelected = true;
+            let correctCount = 0;
+            const total = selects.length;
+
+            selects.forEach((sel, index) => {
+                const val = sel.value;
+                if (val === '') {
+                    allSelected = false;
+                    return;
+                }
+                const selectedNum = parseInt(val, 10);
+                const isCorrect = (selectedNum === correctAnswers[index]);
+                if (isCorrect) {
+                    sel.classList.add('correct');
+                    correctCount++;
+                } else {
+                    sel.classList.add('incorrect');
+                }
+                sel.disabled = true;
+            });
+
+            if (!allSelected) {
+                resultMsg.textContent = '⚠️ выберите вариант для каждого пункта';
+                resultMsg.className = 'result-message error';
+                selects.forEach(sel => {
+                    if (sel.value !== '') {
+                        sel.disabled = true;
+                    } else {
+                        sel.disabled = false;
+                    }
+                });
+                selects.forEach(sel => {
+                    if (sel.value === '') {
+                        sel.classList.remove('correct', 'incorrect');
+                    }
+                });
+                return;
+            }
+
+            if (correctCount === total) {
+                resultMsg.textContent = '✅ Все формулировки безопасны!';
+                resultMsg.className = 'result-message success';
+            } else {
+                resultMsg.textContent = `❌ ${total - correctCount} пунктов требуют корректировки.`;
+                resultMsg.className = 'result-message error';
+            }
+
+            selects.forEach(sel => { sel.disabled = true; });
+        }
+
+        checkBtn.addEventListener('click', checkAll);
+
+        resetBtn.addEventListener('click', function() {
+            resetAll();
+        });
+
+        selects.forEach(sel => {
+            sel.addEventListener('change', function() {
+                if (this.disabled) {
+                    this.disabled = false;
+                    this.classList.remove('correct', 'incorrect');
+                    resultMsg.textContent = 'выберите все варианты';
+                    resultMsg.className = 'result-message';
+                } else {
+                    this.classList.remove('correct', 'incorrect');
+                }
+            });
+        });
+
+        resetAll();
+    })();
+</script>
+</body>
+</html>
